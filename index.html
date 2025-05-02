@@ -5,143 +5,113 @@
   <title>Respawn Acquisition Tracker</title>
   <style>
     :root {
-      --bg: #f7f7f7;
-      --text: #333;
-      --card-bg: #fff;
-      --border: #ddd;
-      --header-bg: #333;
-      --header-text: #fff;
-      --th-bg: #f0f0f0;
-      --th-text: #000;
-      --btn-bg: #fafafa;
-      --btn-border: #bbb;
-      --btn-text: #000;
-      --detail-text: #666;
-      --link: #0077cc;
-      --modal-bg: #fff;
-      --overlay: rgba(0,0,0,0.6);
-      --check-grey: #bbb;
-      --check-green: #4caf50;
+      --bg: #f7f7f7; --text: #333; --card-bg: #fff; --border: #ddd;
+      --header-bg: #333; --header-text: #fff; --th-bg: #f0f0f0; --th-text: #000;
+      --btn-bg: #fafafa; --btn-border: #bbb; --btn-text: #000;
+      --detail-text: #666; --link: #0077cc; --modal-bg: #fff;
+      --overlay: rgba(0,0,0,0.6); --check-grey: #bbb; --check-green: #4caf50;
     }
     .dark-mode {
-      --bg: #1a1a1a;
-      --text: #eee;
-      --card-bg: #2a2a2a;
-      --border: #555;
-      --header-bg: #444;
-      --header-text: #ddd;
-      --th-bg: #333;
-      --th-text: #eee;
-      --btn-bg: #444;
-      --btn-border: #666;
-      --btn-text: #eee;
-      --detail-text: #aaa;
-      --link: #66aaff;
-      --modal-bg: #333;
-      --overlay: rgba(0,0,0,0.8);
-      --check-grey: #555;
+      --bg: #1a1a1a; --text: #eee; --card-bg: #2a2a2a; --border: #555;
+      --header-bg: #444; --header-text: #ddd; --th-bg: #333; --th-text: #eee;
+      --btn-bg: #444; --btn-border: #666; --btn-text: #eee;
+      --detail-text: #aaa; --link: #66aaff; --modal-bg: #333;
+      --overlay: rgba(0,0,0,0.8); --check-grey: #555;
     }
-
-    html, body { height:100%; margin:0; background: transparent; color: var(--text); }
-    body { display:flex; align-items:center; justify-content:center; padding:1rem; font-family:sans-serif; }
+    html, body {
+      height: 100%; margin: 0;
+      background: transparent; color: var(--text);
+    }
+    body {
+      display: flex; align-items: center; justify-content: center;
+      padding: 1rem; font-family: sans-serif;
+    }
     .tracker-container {
-      position: relative;
-      background: var(--card-bg);
-      border:1px solid var(--border);
-      border-radius:8px;
-      box-shadow:0 2px 8px rgba(0,0,0,0.1);
-      padding:1rem 1.5rem;
-      max-width:90vw; max-height:90vh;
-      overflow-y:auto;
+      position: relative; background: var(--card-bg);
+      border: 1px solid var(--border); border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      padding: 1rem 1.5rem; max-width: 90vw; max-height: 90vh;
+      overflow-y: auto;
     }
-    .toggle-container { position:absolute; top:0.5rem; right:0.5rem; font-size:0.85rem; }
-    .toggle-container input { margin-right:0.3rem; }
-    h1 { margin:0 0 .5rem; font-size:1.25rem; }
-    p { margin:0 0 1rem; font-size:.95rem; }
-
-    table { width:100%; border-collapse:collapse; }
+    .toggle-container {
+      position: absolute; top: .5rem; right: .5rem;
+      font-size: .85rem;
+    }
+    #sync-container {
+      position: absolute; top: 2.5rem; right: .5rem;
+      font-size: .85rem; text-align: right;
+    }
+    #sync-container input {
+      padding: .2rem .4rem; font-size: .85rem; width: 8rem;
+    }
+    #sync-container button {
+      padding: .2rem .6rem; font-size: .85rem; margin-left: .3rem;
+    }
+    h1 { margin: 0 0 .5rem; font-size: 1.25rem; }
+    p { margin: 0 0 1rem; font-size: .95rem; }
+    table { width: 100%; border-collapse: collapse; }
     th, td {
-      border:1px solid var(--border);
-      padding:.3rem .6rem;
-      vertical-align:top; font-size:.9rem; text-align:left;
-      color: var(--text);
+      border: 1px solid var(--border); padding: .3rem .6rem;
+      vertical-align: top; font-size: .9rem; text-align: left;
     }
     th {
-      background: var(--th-bg);
-      color: var(--th-text);
-      font-weight:600;
+      background: var(--th-bg); color: var(--th-text);
+      font-weight: 600;
     }
-    .details { margin-top:.25rem; font-size:.8rem; color: var(--detail-text); padding-left:.6rem; }
-    .entry-link { color: var(--link); text-decoration:none; cursor:pointer; }
-    .entry-link:hover { text-decoration:underline; }
-
+    .details {
+      margin-top: .25rem; font-size: .8rem;
+      color: var(--detail-text); padding-left: .6rem;
+    }
+    .entry-link {
+      color: var(--link); cursor: pointer;
+      text-decoration: none;
+    }
+    .entry-link:hover { text-decoration: underline; }
     .section-header td {
-      background: var(--header-bg);
-      color: var(--header-text);
-      font-weight:bold; text-align:center; padding:.5rem;
+      background: var(--header-bg); color: var(--header-text);
+      font-weight: bold; text-align: center; padding: .5rem;
     }
     .subsection-header td {
-      background: var(--th-bg);
-      color: var(--th-text);
-      font-style: italic; text-align:left; padding:.4rem .6rem;
+      background: var(--th-bg); color: var(--th-text);
+      font-style: italic; text-align: left; padding: .4rem .6rem;
     }
-
     .checkmark {
-      margin-right:.4rem; font-size:1.6rem; font-weight:900;
-      color: var(--check-grey); line-height:1; vertical-align:middle;
+      margin-right: .4rem; font-size: 1.6rem; font-weight: 900;
+      color: var(--check-grey); vertical-align: middle; line-height: 1;
     }
     tr.collected .checkmark { color: var(--check-green); }
-
     button {
-      padding:.25rem .6rem; font-size:.85rem; cursor:pointer;
-      border:1px solid var(--btn-border); border-radius:4px;
+      padding: .25rem .6rem; font-size: .85rem; cursor: pointer;
+      border: 1px solid var(--btn-border); border-radius: 4px;
       background: var(--btn-bg); color: var(--btn-text);
     }
     button:hover { background: var(--th-bg); }
-
     .reset-btn {
-      background:none; border:none; font-size:1.2rem;
-      color: var(--detail-text); margin-left:.4rem;
-      cursor:pointer; vertical-align:middle;
+      background: none; border: none; font-size: 1.2rem;
+      color: var(--detail-text); margin-left: .4rem;
+      cursor: pointer; vertical-align: middle;
     }
     .reset-btn:hover { color: var(--check-grey); }
-
     #modal {
-      display:none; position:fixed; top:0; left:0; width:100%; height:100%;
-      background: var(--overlay); z-index:1000;
-      align-items:center; justify-content:center;
+      display: none; position: fixed; top: 0; left: 0;
+      width: 100%; height: 100%; background: var(--overlay);
+      z-index: 1000; align-items: center; justify-content: center;
     }
     #modal .modal-content {
-  position: relative;
-  background: var(--modal-bg);
-  padding: 1rem;
-  border-radius: 8px;
-  /* cap size */
-  max-width: 600px;
-  width: 90%;
-  max-height: 80vh;
-  overflow: auto;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-  color: var(--text);
-}
-
-#modal img {
-  /* keep image contained */
-  max-width: 100%;
-  max-height: 70vh;
-  display: block;
-  margin: 0 auto;
-}
-
-#modal .modal-close {
-  position: absolute;
-  top: .5rem;
-  right: .75rem;
-  font-size: 1.25rem;
-  cursor: pointer;
-  color: var(--text);
-}
-
+      position: relative; background: var(--modal-bg);
+      padding: 1rem; border-radius: 8px;
+      max-width: 600px; width: 90%; max-height: 80vh;
+      overflow: auto; box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      color: var(--text);
+    }
+    #modal img {
+      max-width: 100%; max-height: 70vh;
+      display: block; margin: 0 auto;
+    }
+    #modal .modal-close {
+      position: absolute; top: .5rem; right: .75rem;
+      font-size: 1.25rem; cursor: pointer; color: var(--text);
+    }
   </style>
 </head>
 <body>
@@ -149,8 +119,14 @@
     <div class="toggle-container">
       <label><input type="checkbox" id="dark-toggle">Dark Mode</label>
     </div>
+    <div id="sync-container"></div>
+
     <h1>Respawn Acquisition Tracker</h1>
-    <p>Click an entry name to view its location image (if one exists). <br>Click “Collect” to change the status to collected and add the timestamp<br>Click “Update” to change the collected timestamp to most current or undo collected status with “⟲”.</br></p></p>
+    <p>
+      Click an entry name to view its image (if enabled).<br>
+      Click “Collect” to record it, “Update” to overwrite, or “⟲” to undo.<br>
+      Transfer acquisition status between devices with the sync code.
+    </p>
     <table id="tracker">
       <thead><tr><th>Entry</th><th>Last Collected</th><th>Action</th></tr></thead>
       <tbody></tbody>
@@ -522,14 +498,15 @@
 ];
 
 
-    const STORAGE_KEY = 'respawn_acquisition_data';
-    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
-    const tbody = document.querySelector('#tracker tbody');
-    const modal = document.getElementById('modal');
-    const modalImg = document.getElementById('modal-image');
-    const modalTitle = document.getElementById('modal-title');
-    const modalClose = modal.querySelector('.modal-close');
-    const darkToggle = document.getElementById('dark-toggle');
+const STORAGE_KEY = 'respawn_acquisition_data';
+    let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    const tbody  = document.querySelector('#tracker tbody');
+    const modal  = document.getElementById('modal');
+    const mImg   = document.getElementById('modal-image');
+    const mTitle = document.getElementById('modal-title');
+    const mClose = modal.querySelector('.modal-close');
+    const toggle = document.getElementById('dark-toggle');
+    const syncCt = document.getElementById('sync-container');
 
     function formatDate(ts) {
       return ts ? new Date(ts).toLocaleString() : '-';
@@ -538,64 +515,111 @@
       localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
     }
 
+    function initializeSyncUI() {
+      syncCt.innerHTML = '';
+
+      // Always show current code + copy
+      const currentCode = btoa(JSON.stringify(data));
+      const codeInput   = document.createElement('input');
+      codeInput.readOnly = true;
+      codeInput.value    = currentCode;
+      codeInput.style.width = '8rem';
+      const copyBtn     = document.createElement('button');
+      copyBtn.textContent = 'Copy';
+      copyBtn.addEventListener('click', () => {
+        navigator.clipboard.writeText(currentCode);
+        copyBtn.textContent = 'Copied!';
+        setTimeout(() => copyBtn.textContent = 'Copy', 1500);
+      });
+      const row1 = document.createElement('div');
+      row1.textContent = 'Sync Code: ';
+      row1.append(codeInput, copyBtn);
+
+      // Always show paste code + sync
+      const pasteInput = document.createElement('input');
+      pasteInput.placeholder = 'Paste Sync Code';
+      pasteInput.style.width = '8rem';
+      const syncBtn     = document.createElement('button');
+      syncBtn.textContent = 'Sync';
+      syncBtn.addEventListener('click', () => {
+        const txt = pasteInput.value.trim();
+        if (!txt) return alert('Please paste a code.');
+        try {
+          const obj = JSON.parse(atob(txt));
+          data = obj;
+          save();
+          render();
+        } catch (e) {
+          alert('Invalid sync code');
+        }
+      });
+      const row2 = document.createElement('div');
+      row2.textContent = 'Paste Code: ';
+      row2.append(pasteInput, syncBtn);
+
+      syncCt.append(row1, row2);
+    }
+
     function render() {
       let html = '';
-      SECTIONS.forEach(section => {
-        html += `<tr class="section-header"><td colspan="3">${section.title}</td></tr>`;
-        section.items.forEach(item => {
-          if (item.subheader) {
-            html += `<tr class="subsection-header"><td colspan="3">${item.subheader}</td></tr>`;
+      SECTIONS.forEach(sec => {
+        html += `<tr class="section-header"><td colspan="3">${sec.title}</td></tr>`;
+        sec.items.forEach(it => {
+          if (it.subheader) {
+            html += `<tr class="subsection-header"><td colspan="3">${it.subheader}</td></tr>`;
             return;
           }
-          const collected = Boolean(data[item.id]);
-          const check = `<span class="checkmark">✓</span>`;
-          const clickable = item.clickable !== false && item.image;
-          const nameEl = clickable
-            ? `<a href="#" class="entry-link" data-image="${item.image}" data-title="${item.title}">${item.title}</a>`
-            : `<span>${item.title}</span>`;
-
-          const actionBtn = `<button class="action-btn">${collected ? 'Update' : 'Collect'}</button>`;
-          const resetBtn = collected
-            ? `<button class="reset-btn" title="Undo collection">⟲</button>`
-            : '';
-
+          const done    = Boolean(data[it.id]);
+          const chk     = `<span class="checkmark">✓</span>`;
+          const canClick= it.clickable && it.image;
+          const nameEl  = canClick
+            ? `<a href="#" class="entry-link" data-img="${it.image}" data-title="${it.title}">${it.title}</a>`
+            : `<span>${it.title}</span>`;
+          const actBtn  = `<button class="action-btn">${done ? 'Update' : 'Collect'}</button>`;
+          const rstBtn  = done ? `<button class="reset-btn" title="Undo">⟲</button>` : '';
           html += `
-            <tr data-id="${item.id}" class="${collected?'collected':''}">
-              <td>${check}${nameEl}${item.details?`<div class="details">${item.details}</div>`:''}</td>
-              <td class="ts">${formatDate(data[item.id])}</td>
-              <td>${actionBtn}${resetBtn}</td>
+            <tr data-id="${it.id}" class="${done ? 'collected' : ''}">
+              <td>${chk}${nameEl}${it.details ? `<div class="details">${it.details}</div>` : ''}</td>
+              <td class="ts">${formatDate(data[it.id])}</td>
+              <td>${actBtn}${rstBtn}</td>
             </tr>`;
         });
       });
       tbody.innerHTML = html;
 
-      tbody.querySelectorAll('.action-btn').forEach(btn => {
+      tbody.querySelectorAll('.action-btn').forEach(btn =>
         btn.addEventListener('click', e => {
-          const row = e.target.closest('tr');
-          const id = row.dataset.id;
-          data[id] = Date.now(); save(); render();
-        });
-      });
-      tbody.querySelectorAll('.reset-btn').forEach(btn => {
+          const id = e.target.closest('tr').dataset.id;
+          data[id] = Date.now();
+          save();
+          render();
+        })
+      );
+      tbody.querySelectorAll('.reset-btn').forEach(btn =>
         btn.addEventListener('click', e => {
-          const row = e.target.closest('tr');
-          const id = row.dataset.id;
-          delete data[id]; save(); render();
-        });
-      });
-      tbody.querySelectorAll('.entry-link').forEach(link => {
+          const id = e.target.closest('tr').dataset.id;
+          delete data[id];
+          save();
+          render();
+        })
+      );
+      tbody.querySelectorAll('.entry-link').forEach(link =>
         link.addEventListener('click', e => {
           e.preventDefault();
-          modalImg.src = link.dataset.image;
-          modalTitle.textContent = link.dataset.title;
+          mImg.src = link.dataset.img;
+          mTitle.textContent = link.dataset.title;
           modal.style.display = 'flex';
-        });
-      });
+        })
+      );
+
+      initializeSyncUI();
     }
 
-    modalClose.addEventListener('click', () => modal.style.display = 'none');
-    modal.addEventListener('click', e => { if (e.target===modal) modal.style.display = 'none'; });
-    darkToggle.addEventListener('change', () => document.body.classList.toggle('dark-mode', darkToggle.checked));
+    mClose.addEventListener('click', () => modal.style.display = 'none');
+    modal.addEventListener('click', e => { if (e.target === modal) modal.style.display = 'none'; });
+    toggle.addEventListener('change', () =>
+      document.body.classList.toggle('dark-mode', toggle.checked)
+    );
 
     render();
   })();
