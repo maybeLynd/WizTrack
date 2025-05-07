@@ -162,6 +162,22 @@
       #modal .modal-content { max-width: 95%; max-height: 70vh; }
       #modal img { max-height: 50vh; }
     }
+    body.is-embedded {
+      /* make background transparent so parent page shows through */
+      background: transparent !important;
+    }
+    /* hide controls, title and intro text when embedded */
+    body.is-embedded .toggle-container,
+    body.is-embedded #sync-container,
+    body.is-embedded h1,
+    body.is-embedded .intro-sync p {
+      display: none !important;
+    }
+    /* bump the card up so it fills the space */
+    body.is-embedded .tracker-container {
+      margin-top: 0 !important;
+      /* you can also tweak padding/width here if needed */
+    }
   </style>
 </head>
 <body>
