@@ -257,6 +257,12 @@ button:hover { background: var(--th-bg); }
   }
   #modal img { max-height: 50vh; }
 }
+body.is-embedded > * {
+  display: none !important;
+}
+body.is-embedded > .container {
+  display: block !important;
+}
 
   </style>
   
@@ -297,10 +303,8 @@ button:hover { background: var(--th-bg); }
 </div>
   <script>
     if (window.self !== window.top) {
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.classList.add('is-embedded');
-    });
-  }
+  document.documentElement.classList.add('is-embedded');
+}
 
   (function(){
     const SECTIONS = [
