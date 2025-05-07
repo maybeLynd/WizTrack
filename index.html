@@ -270,10 +270,11 @@ button:hover { background: var(--th-bg); }
   }
   #modal img { max-height: 50vh; }
 }
-body.is-embedded > * {
+html.is-embedded body > *:not(.container) {
   display: none !important;
 }
-body.is-embedded > .container {
+/* make sure your .container still shows */
+html.is-embedded body > .container {
   display: block !important;
 }
 
