@@ -215,6 +215,12 @@
   </div>
 
   <script>
+    if (window.self !== window.top) {
+    document.addEventListener('DOMContentLoaded', () => {
+      document.body.classList.add('is-embedded');
+    });
+  }
+  
   (function(){
     const SECTIONS = [
   {
@@ -569,13 +575,6 @@
     ]
   }
 ];
-
-if (window.self !== window.top) {
-    document.addEventListener('DOMContentLoaded', () => {
-      document.body.classList.add('is-embedded');
-    });
-  }
-
 
 const STORAGE_KEY = 'respawn_acquisition_data';
     let data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
