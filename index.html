@@ -2,8 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <div class="container">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Respawn Acquisition Tracker</title>
+  <script>
+    if (window.self !== window.top) {
+      document.documentElement.classList.add('is-embedded');
+    }
+  </script>  
   <style>
     :root {
   --bg: #f7f7f7; --text: #333; --card-bg: #fff; --border: #ddd;
@@ -268,6 +273,7 @@ body.is-embedded > .container {
   
 </head>
 <body>
+  <div class="container">
   <div class="tracker-container">
     <div class="toggle-container">
       <label><input type="checkbox" id="dark-toggle">Dark Mode</label>
@@ -302,9 +308,6 @@ body.is-embedded > .container {
   </div>
 </div>
   <script>
-    if (window.self !== window.top) {
-  document.documentElement.classList.add('is-embedded');
-}
 
   (function(){
     const SECTIONS = [
