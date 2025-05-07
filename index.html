@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Respawn Acquisition Tracker</title>
   <script>
-    if (window.self !== window.top) {
+    if (new URL(location).searchParams.has('embed')) {
       document.documentElement.classList.add('is-embedded');
     }
-  </script>  
+  </script>
+   
   <style>
     :root {
   --bg: #f7f7f7; --text: #333; --card-bg: #fff; --border: #ddd;
