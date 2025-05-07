@@ -6,321 +6,258 @@
   <title>Respawn Acquisition Tracker</title>
   <style>
     :root {
-      --bg: #f7f7f7;
-      --text: #333;
-      --card-bg: #fff;
-      --border: #ddd;
-      --header-bg: #333;
-      --header-text: #fff;
-      --th-bg: #f0f0f0;
-      --th-text: #000;
-      --btn-bg: #fafafa;
-      --btn-border: #bbb;
-      --btn-text: #000;
-      --detail-text: #666;
-      --link: #0077cc;
-      --modal-bg: #fff;
-      --overlay: rgba(0,0,0,0.6);
-      --check-grey: #bbb;
-      --check-green: #4caf50;
-    }
-  
-    .dark-mode {
-      --bg: #1a1a1a;
-      --text: #eee;
-      --card-bg: #2a2a2a;
-      --border: #555;
-      --header-bg: #444;
-      --header-text: #ddd;
-      --th-bg: #333;
-      --th-text: #eee;
-      --btn-bg: #444;
-      --btn-border: #666;
-      --btn-text: #eee;
-      --detail-text: #aaa;
-      --link: #66aaff;
-      --modal-bg: #333;
-      --overlay: rgba(0,0,0,0.8);
-      --check-grey: #555;
-    }
-  
-    html, body {
-      height: 100%;
-      margin: 0;
-      background: transparent;
-      color: var(--text);
-    }
-  
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 1rem;
-      font-family: sans-serif;
-    }
-  
-    .tracker-container {
-      position: relative;
-      background: var(--card-bg);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      padding: 1rem 1.5rem;
-      width: 100%;
-      max-width: 800px;
-      max-height: 90vh;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-    }
-  
-    .toggle-container {
-      position: absolute;
-      top: .5rem;
-      right: .5rem;
-      font-size: .85rem;
-    }
-  
-    .intro-sync {
-      display: flex;
-      flex-wrap: wrap;
-      align-items: flex-start;
-      gap: 1rem;
-      margin-bottom: 1rem;
-    }
-    .intro-sync p {
-      flex: 1 1 0;
-      min-width: 0;
-      margin: 0;
-    }
-    #sync-container {
-      flex: 0 0 auto;
-      white-space: nowrap;
-      text-align: right;
-    }
-    @media (max-width: 600px) {
-      .intro-sync {
-        flex-direction: column;
-      }
-      #sync-container {
-        margin-top: 1rem;
-      }
-    }
-  
-    #sync-container input {
-      padding: .2rem .4rem;
-      font-size: .85rem;
-      width: 8rem;
-    }
-    #sync-container button {
-      padding: .2rem .6rem;
-      font-size: .85rem;
-      margin-left: .3rem;
-    }
-  
-    h1 {
-      margin: 0 0 .5rem;
-      font-size: 1.25rem;
-    }
-    p {
-      margin: 0 0 1rem;
-      font-size: .95rem;
-    }
-  
-    .table-responsive {
-      flex: 1;
-      overflow-x: auto;
-      margin-bottom: 1rem;
-    }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-    }
-    th, td {
-      border: 1px solid var(--border);
-      padding: .3rem .6rem;
-      vertical-align: top;
-      font-size: .9rem;
-      text-align: left;
-    }
-    th {
-      background: var(--th-bg);
-      color: var(--th-text);
-      font-weight: 600;
-    }
-  
-    .details {
-      margin-top: .25rem;
-      font-size: .8rem;
-      color: var(--detail-text);
-      padding-left: .6rem;
-    }
-  
-    .entry-link {
-      color: var(--link);
-      cursor: pointer;
-      text-decoration: none;
-    }
-    .entry-link:hover {
-      text-decoration: underline;
-    }
-  
-    .section-header td {
-      background: var(--header-bg);
-      color: var(--header-text);
-      font-weight: bold;
-      text-align: center;
-      padding: .5rem;
-    }
-    .subsection-header td {
-      background: var(--th-bg);
-      color: var(--th-text);
-      font-style: italic;
-      text-align: left;
-      padding: .4rem .6rem;
-    }
-  
-    .checkmark {
-      margin-right: .4rem;
-      font-size: 1.6rem;
-      font-weight: 900;
-      color: var(--check-grey);
-      vertical-align: middle;
-      line-height: 1;
-    }
-    tr.collected .checkmark {
-      color: var(--check-green);
-    }
-  
-    button {
-      padding: .25rem .6rem;
-      font-size: .85rem;
-      cursor: pointer;
-      border: 1px solid var(--btn-border);
-      border-radius: 4px;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-    }
-    button:hover {
-      background: var(--th-bg);
-    }
-  
-    .reset-btn {
-      background: none;
-      border: none;
-      font-size: 1.2rem;
-      color: var(--detail-text);
-      margin-left: .4rem;
-      cursor: pointer;
-      vertical-align: middle;
-    }
-    .reset-btn:hover {
-      color: var(--check-grey);
-    }
-  
-    #modal {
-      display: none;
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      background: var(--overlay);
-      z-index: 1000;
-      align-items: center;
-      justify-content: center;
-    }
-    #modal .modal-content {
-      position: relative;
-      background: var(--modal-bg);
-      padding: 1rem;
-      border-radius: 8px;
-      max-width: 90%;
-      max-height: 80vh;
-      overflow: auto;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-      color: var(--text);
-    }
-    #modal img {
-      max-width: 100%;
-      max-height: 60vh;
-      display: block;
-      margin: 0 auto;
-    }
-    #modal .modal-close {
-      position: absolute;
-      top: .5rem;
-      right: .75rem;
-      font-size: 1.25rem;
-      cursor: pointer;
-      color: var(--text);
-    }
-  
-    /* MOBILE ADJUSTMENTS */
-    @media (max-width: 600px) {
-      .tracker-container {
-        padding: .5rem;
-        border-radius: 0;
-      }
-      h1 {
-        font-size: 1rem;
-      }
-      p {
-        font-size: .85rem;
-      }
-      th, td {
-        padding: .2rem .4rem;
-        font-size: .8rem;
-      }
-      .toggle-container,
-      #sync-container {
-        font-size: .75rem;
-      }
-      #sync-container input {
-        width: 6rem;
-        font-size: .75rem;
-      }
-      #sync-container button {
-        padding: .2rem .4rem;
-        font-size: .75rem;
-      }
-      .checkmark {
-        font-size: 1.2rem;
-      }
-      button {
-        padding: .2rem .4rem;
-        font-size: .75rem;
-      }
-      .reset-btn {
-        font-size: 1rem;
-      }
-      #modal .modal-content {
-        max-width: 95%;
-        max-height: 70vh;
-      }
-      #modal img {
-        max-height: 50vh;
-      }
-    }
-  
-    /* EMBED-ONLY RULES */
-    body.is-embedded {
-      /* remove default centering & padding */
-      justify-content: flex-start !important;
-      padding: 0 !important;
-    }
-    /* hide absolutely everything except the tracker + modal */
-    body.is-embedded > *:not(.tracker-container):not(#modal) {
-      display: none !important;
-    }
-    /* make the tracker fill the embed */
-    body.is-embedded .tracker-container {
-      width: 100% !important;
-      max-width: none !important;
-      margin: 0 !important;
-      border-radius: 0 !important;
-      box-shadow: none !important;
-      overflow: visible !important;
-    }
+  --bg: #f7f7f7; --text: #333; --card-bg: #fff; --border: #ddd;
+  --header-bg: #333; --header-text: #fff; --th-bg: #f0f0f0; --th-text: #000;
+  --btn-bg: #fafafa; --btn-border: #bbb; --btn-text: #000;
+  --detail-text: #666; --link: #0077cc; --modal-bg: #fff;
+  --overlay: rgba(0,0,0,0.6); --check-grey: #bbb; --check-green: #4caf50;
+}
+
+.dark-mode {
+  --bg: #1a1a1a; --text: #eee; --card-bg: #2a2a2a; --border: #555;
+  --header-bg: #444; --header-text: #ddd; --th-bg: #333; --th-text: #eee;
+  --btn-bg: #444; --btn-border: #666; --btn-text: #eee;
+  --detail-text: #aaa; --link: #66aaff; --modal-bg: #333;
+  --overlay: rgba(0,0,0,0.8); --check-grey: #555;
+}
+
+/* === make your new .container fill the embed viewport === */
+html, body, .container {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  color: var(--text);
+  font-family: sans-serif;
+}
+
+/* === only show the .container when embedded === */
+body.is-embedded > :not(.container) {
+  display: none !important;
+}
+body.is-embedded .container {
+  display: block;
+}
+
+/* === tracker styles inside your .container === */
+.tracker-container {
+  position: relative;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 1rem 1.5rem;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.toggle-container {
+  position: absolute;
+  top: .5rem;
+  right: .5rem;
+  font-size: .85rem;
+}
+
+/* new wrapper */
+.intro-sync {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.intro-sync p {
+  flex: 1 1 0;
+  min-width: 0;
+  margin: 0;
+}
+#sync-container {
+  flex: 0 0 auto;
+  white-space: nowrap;
+  text-align: right;
+}
+@media (max-width: 600px) {
+  .intro-sync { flex-direction: column; }
+  #sync-container { margin-top: 1rem; }
+}
+
+#sync-container input {
+  padding: .2rem .4rem;
+  font-size: .85rem;
+  width: 8rem;
+}
+#sync-container button {
+  padding: .2rem .6rem;
+  font-size: .85rem;
+  margin-left: .3rem;
+}
+
+h1 { margin: 0 0 .5rem; font-size: 1.25rem; }
+p  { margin: 0 0 1rem; font-size: .95rem; }
+
+.table-responsive {
+  flex: 1;
+  overflow-x: auto;
+  margin-bottom: 1rem;
+}
+
+table { width: 100%; border-collapse: collapse; }
+th, td {
+  border: 1px solid var(--border);
+  padding: .3rem .6rem;
+  vertical-align: top;
+  font-size: .9rem;
+  text-align: left;
+}
+th {
+  background: var(--th-bg);
+  color: var(--th-text);
+  font-weight: 600;
+}
+
+.details {
+  margin-top: .25rem;
+  font-size: .8rem;
+  color: var(--detail-text);
+  padding-left: .6rem;
+}
+
+.entry-link {
+  color: var(--link);
+  cursor: pointer;
+  text-decoration: none;
+}
+.entry-link:hover { text-decoration: underline; }
+
+.section-header td {
+  background: var(--header-bg);
+  color: var(--header-text);
+  font-weight: bold;
+  text-align: center;
+  padding: .5rem;
+}
+.subsection-header td {
+  background: var(--th-bg);
+  color: var(--th-text);
+  font-style: italic;
+  text-align: left;
+  padding: .4rem .6rem;
+}
+
+.checkmark {
+  margin-right: .4rem;
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--check-grey);
+  vertical-align: middle;
+  line-height: 1;
+}
+tr.collected .checkmark { color: var(--check-green); }
+
+button {
+  padding: .25rem .6rem;
+  font-size: .85rem;
+  cursor: pointer;
+  border: 1px solid var(--btn-border);
+  border-radius: 4px;
+  background: var(--btn-bg);
+  color: var(--btn-text);
+}
+button:hover { background: var(--th-bg); }
+
+.reset-btn {
+  background: none;
+  border: none;
+  font-size: 1.2rem;
+  color: var(--detail-text);
+  margin-left: .4rem;
+  cursor: pointer;
+  vertical-align: middle;
+}
+.reset-btn:hover { color: var(--check-grey); }
+
+#modal {
+  display: none;
+  position: fixed;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  background: var(--overlay);
+  z-index: 1000;
+  align-items: center;
+  justify-content: center;
+}
+#modal .modal-content {
+  position: relative;
+  background: var(--modal-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  max-width: 90%;
+  max-height: 80vh;
+  overflow: auto;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+  color: var(--text);
+}
+#modal img {
+  max-width: 100%;
+  max-height: 60vh;
+  display: block;
+  margin: 0 auto;
+}
+#modal .modal-close {
+  position: absolute;
+  top: .5rem; right: .75rem;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text);
+}
+
+/* MOBILE ADJUSTMENTS */
+@media (max-width: 600px) {
+  .tracker-container {
+    padding: .5rem;
+    border-radius: 0;
+  }
+  h1 { font-size: 1rem; }
+  p  { font-size: .85rem; }
+  th, td {
+    padding: .2rem .4rem;
+    font-size: .8rem;
+  }
+  .toggle-container, #sync-container {
+    font-size: .75rem;
+  }
+  #sync-container input {
+    width: 6rem;
+    font-size: .75rem;
+  }
+  #sync-container button {
+    font-size: .75rem;
+    padding: .2rem .4rem;
+  }
+  .checkmark { font-size: 1.2rem; }
+  button {
+    padding: .2rem .4rem;
+    font-size: .75rem;
+  }
+  .reset-btn { font-size: 1rem; }
+  #modal .modal-content {
+    max-width: 95%;
+    max-height: 70vh;
+  }
+  #modal img { max-height: 50vh; }
+}
+
   </style>
   
 </head>
