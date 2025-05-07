@@ -27,11 +27,19 @@
 }
 
 /* === make your new .container fill the embed viewport === */
-html, body, .container {
+html, body {
   height: 100%;
   width: 100%;
   margin: 0;
   padding: 0;
+}
+
+.container {
+  /* let it size to its contents */
+  width: auto;
+  height: auto;
+  margin: 0 auto;     /* center it if you like */
+  padding: 0;         /* or whatever you need */
 }
 
 body {
